@@ -1,6 +1,6 @@
 package pt.amane.dscatalog.dtos;
 
-import pt.amane.dscatalog.services.validator.UserInsertValid;
+import pt.amane.dscatalog.services.validation.UserInsertValid;
 
 @UserInsertValid
 public class UserInsertDTO extends UserDTO {

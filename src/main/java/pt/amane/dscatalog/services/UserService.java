@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pt.amane.dscatalog.dtos.RoleDTO;
 import pt.amane.dscatalog.dtos.UserDTO;
 import pt.amane.dscatalog.dtos.UserInsertDTO;
+import pt.amane.dscatalog.dtos.UserUpdateDTO;
 import pt.amane.dscatalog.entities.Role;
 import pt.amane.dscatalog.entities.User;
 import pt.amane.dscatalog.repositories.RoleRepository;
@@ -59,7 +60,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public UserDTO update(Long id, UserDTO dto) {
+	public UserDTO update(Long id, UserUpdateDTO dto) {
 		try {
 			User user = repository.getOne(id);
 			copyDtoToUsery(dto, user);
@@ -67,10 +68,7 @@ public class UserService {
 			return new UserDTO(user);
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found! Id: " + id + ", Type: " + UserDTO.class.getName());
-		} catch (DataIntegrityViolationException e) {
-			throw new DataBaseIntegrityViolationException("User cannot be upadated! It has object duplicate..");
 		}
-
 	}
 
 	public void delete(Long id) {
