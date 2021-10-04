@@ -1,5 +1,8 @@
 package pt.amane.dscatalog.dtos;
 
+import pt.amane.dscatalog.services.validator.UserInsertValid;
+
+@UserInsertValid
 public class UserInsertDTO extends UserDTO {
 
 	private static final long serialVersionUID = 1L;
