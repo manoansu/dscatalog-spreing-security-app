@@ -1,5 +1,6 @@
 package pt.amane.dscatalog.services;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -71,9 +72,11 @@ class ProductServiceTests {
 		
 		//Quando eu passar um metodo findAll 
 		//passando qualquer argumento do tipo Pegeable, esse objecto retorna o tipo page..
-		Mockito.when(repository.findAll((Pageable) ArgumentMatchers.any())).thenReturn(page);
+		Mockito.when(repository.findAll((Pageable) any())).thenReturn(page);
+		
+		Mockito.when(repository.findAllIdByCategory(any(), any(), any())).thenReturn(page);
 
-		Mockito.when(repository.save(ArgumentMatchers.any())).thenReturn(product);
+		Mockito.when(repository.save(any())).thenReturn(product);
 		
 		// of() retorna um objecto no metodo optional..
 		Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(product));
@@ -130,13 +133,13 @@ class ProductServiceTests {
 	}
 	
 		
-//	@Test
-//	void findAllPagedShouldReturnPage() {
-//		Pageable pageable = PageRequest.of(0, 12);
-//		Page<ProductDTO> result = service.findAllPaged(pageable);
-//		Assertions.assertNotNull(result);
-//		Mockito.verify(repository).findAll(pageable);
-//	}
+	@Test
+	void findAllPagedShouldReturnPage() {
+		Pageable pageable = PageRequest.of(0, 12);
+		Page<ProductDTO> result = service.findAllPaged(0L,"",pageable);
+		Assertions.assertNotNull(result);
+		//Mockito.verify(repository).findAll(pageable);
+	}
 
 	@Test
 	void deleteShouldDoNothingWhenIdExists() {

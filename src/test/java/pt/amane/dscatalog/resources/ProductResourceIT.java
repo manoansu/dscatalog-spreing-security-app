@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pt.amane.dscatalog.dtos.ProductDTO;
 import pt.amane.dscatalog.tests.Factory;
+import pt.amane.dscatalog.tests.TokenUtil;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,6 +28,9 @@ class ProductResourceIT {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@Autowired
+	private TokenUtil tokenUtil;
 
 	// essa anotação é aceite pq o ObjectMapper ele auxilia o objeto
 	// ele nao e a dependencia de produtoresource ou nao interfere em componente..
@@ -34,6 +38,9 @@ class ProductResourceIT {
 	private ObjectMapper objectMapper;
 
 	private ProductDTO productDTO;
+	
+	private String username;
+	private String password;
 
 	private Long existingId;
 	private Long nonExistingId;
@@ -42,6 +49,8 @@ class ProductResourceIT {
 	@BeforeEach
 	void setUp() throws Exception {
 
+		username = "maria@gmail.com";
+		password = "123456";
 		existingId = 1L;
 		nonExistingId = 10000L;
 		countTotalProducts = 25L;
@@ -67,6 +76,8 @@ class ProductResourceIT {
 	@Test
 	void updateShoudReturnProductDTOWhenIdExists() throws Exception {
 
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+		
 		// converte o objecto em string..
 		String jsonBody = objectMapper.writeValueAsString(productDTO);
 		
@@ -74,6 +85,7 @@ class ProductResourceIT {
 		String expectedDescription = productDTO.getDescription();
 
 		ResultActions result = mockMvc.perform(put("/products/{id}", existingId)
+				.header("Authorization","Bearer" + accessToken)
 				.content(jsonBody) // pega o conteudo de object em JSON
 				.contentType(MediaType.APPLICATION_JSON) //O tipo de conteudo é JSON
 				.accept(MediaType.APPLICATION_JSON)); // O tipo de dados é JSON.
@@ -88,10 +100,13 @@ class ProductResourceIT {
 	@Test
 	void updateShoudReturnNotFoundWhenIdDoesNotExist() throws Exception {
 
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
+		
 		// converte o objecto em string..
 		String jsonBody = objectMapper.writeValueAsString(productDTO);
 		
 		ResultActions result = mockMvc.perform(put("/products/{id}", nonExistingId)
+				.header("Authorization","Bearer" + accessToken)
 				.content(jsonBody) // pega o conteudo de object em JSON
 				.contentType(MediaType.APPLICATION_JSON) //O tipo de conteudo é JSON
 				.accept(MediaType.APPLICATION_JSON)); // O tipo de dados é JSON.

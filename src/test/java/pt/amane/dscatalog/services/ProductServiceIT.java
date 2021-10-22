@@ -62,43 +62,43 @@ class ProductServiceIT {
 		});
 	}
 
-//	@Test
-//	void findAllPagedShouldReturnPageWhenPage0Size10() {
-//
-//		PageRequest pageRequest = PageRequest.of(0, 10);
-//
-//		Page<ProductDTO> result = service.findAllPaged(pageRequest);
-//
-//		Assertions.assertFalse(result.isEmpty());
-//		Assertions.assertEquals(0, result.getNumber());
-//		Assertions.assertEquals(10, result.getSize());
-//		Assertions.assertEquals(countTotalProducts, result.getTotalElements());
-//	}
+	@Test
+	void findAllPagedShouldReturnPageWhenPage0Size10() {
 
-//	@Test
-//	void findAllPagedShouldReturnEmpyPageWhenPageDoesNotExist() {
-//
-//		PageRequest pageRequest = PageRequest.of(50, 10);
-//
-//		Page<ProductDTO> result = service.findAllPaged(pageRequest);
-//
-//		// assertTrue esta afirmar que a pagina esta vazia..
-//		Assertions.assertTrue(result.isEmpty());
-//	}
+		PageRequest pageRequest = PageRequest.of(0, 10);
+
+		Page<ProductDTO> result = service.findAllPaged(0L,"",pageRequest);
+
+		Assertions.assertFalse(result.isEmpty());
+		Assertions.assertEquals(0, result.getNumber());
+		Assertions.assertEquals(10, result.getSize());
+		Assertions.assertEquals(countTotalProducts, result.getTotalElements());
+	}
+
+	@Test
+	void findAllPagedShouldReturnEmpyPageWhenPageDoesNotExist() {
+
+		PageRequest pageRequest = PageRequest.of(50, 10);
+
+		Page<ProductDTO> result = service.findAllPaged(0L,"",pageRequest);
+
+		// assertTrue esta afirmar que a pagina esta vazia..
+		Assertions.assertTrue(result.isEmpty());
+	}
 	
-//	@Test
-//	void findAllPagedShouldReturnSortedPageWhenSortByName() {
-//
-//		PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
-//
-//		Page<ProductDTO> result = service.findAllPaged(pageRequest);
-//
-//		// assertFalse esta afirmar que a pagina não esta vazia..
-//		Assertions.assertFalse(result.isEmpty());
-//		
-//		Assertions.assertEquals("Macbook Pro", result.getContent().get(0).getName());
-//		Assertions.assertEquals("PC Gamer", result.getContent().get(1).getName());
-//		Assertions.assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
-//	}
+	@Test
+	void findAllPagedShouldReturnSortedPageWhenSortByName() {
+
+		PageRequest pageRequest = PageRequest.of(0, 10, Sort.by("name"));
+
+		Page<ProductDTO> result = service.findAllPaged(0L,"",pageRequest);
+
+		// assertFalse esta afirmar que a pagina não esta vazia..
+		Assertions.assertFalse(result.isEmpty());
+		
+		Assertions.assertEquals("Macbook Pro", result.getContent().get(0).getName());
+		Assertions.assertEquals("PC Gamer", result.getContent().get(1).getName());
+		Assertions.assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
+	}
 
 }
