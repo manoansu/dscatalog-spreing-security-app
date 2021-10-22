@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import pt.amane.dscatalog.dtos.RoleDTO;
 import pt.amane.dscatalog.dtos.UserDTO;
 import pt.amane.dscatalog.dtos.UserInsertDTO;
@@ -44,8 +43,14 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	@Autowired
+	private AuthService authService;
+	
 	@Transactional(readOnly = true)
 	public UserDTO findById(Long id) {
+		// verifica se user esta logado ou nao ou se é admin
+		authService.validateSelfOrAdmin(id);
+				
 		Optional<User> userId = repository.findById(id);
 		User user = userId.orElseThrow(() -> new ResourceNotFoundException(
 				"Object not found! Id: " + id + ", Type: " + UserDTO.class.getName()));
@@ -111,7 +116,7 @@ public class UserService implements UserDetailsService{
 			throw new UsernameNotFoundException("Email not found!");
 		}
 		logger.info("User found success! " + username);
-		return null;
+		return user;
 	}
 
 }

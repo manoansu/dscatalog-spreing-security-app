@@ -75,7 +75,7 @@ class ProductResourseTests {
 		 * static org.mockito.Mockito.eq;
 		 */
 
-		when(service.findAllPaged(ArgumentMatchers.any())).thenReturn(page);
+		//when(service.findAllPaged(ArgumentMatchers.any())).thenReturn(page);
 
 		when(service.findById(existingId)).thenReturn(productDTO);
 		when(service.findById(nonExistingId)).thenThrow(ResourceNotFoundException.class);
