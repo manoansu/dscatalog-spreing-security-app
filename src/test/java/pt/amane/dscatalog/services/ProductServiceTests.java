@@ -122,7 +122,7 @@ class ProductServiceTests {
 	@Test
 	void findByIdShouldThrowResourceNotFoundExceptionWhenIdDoesNotExist() {
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-			service.findById(nonExistingId);
+			service.findById(1000L);
 		});
 	}
 	
